@@ -1,5 +1,7 @@
 from suds.client import Client
 from suds.sudsobject import asdict
+from datetime import datetime
+from dateutil import parser
 
 
 def recursive_translation(d):
@@ -21,6 +23,15 @@ def recursive_translation(d):
 
 def get_result(url, scope):
     client = Client(url)
-    response = client.service.DFUFileView(Scope=scope)
+    try:
+        response = client.service.DFUFileView(Scope=scope)
+    except:
+        response = client.service.DFUInfo(Name=scope)
     dict = recursive_translation(response)
     return dict
+
+
+def unix_time(time_string):
+    dt = parser.parse(time_string)
+    epoch = datetime.utcfromtimestamp(0)
+    return (dt - epoch).total_seconds() * 1000.0
