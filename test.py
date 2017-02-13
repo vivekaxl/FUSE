@@ -19,10 +19,10 @@ def recursive_translation(d):
     return result
 
 
-client = Client("http://10.239.227.6:8010/WsDfu/DFUFileView?ver_=1.31&wsdl")
-response = client.service.DFUFileView(Scope="vivek")
+client = Client("http://10.239.227.6:8010/WsDfu/DFUInfo?ver_=1.31&wsdl")
+response = client.service.DFUInfo(Name="vivek::c_ecolids.csv")
 dict = recursive_translation(response)
-
+print dict
 import pdb
 pdb.set_trace()
 # response = client.DFUFileView()
