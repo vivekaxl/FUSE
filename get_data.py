@@ -30,9 +30,17 @@ def get_result(url, scope):
     results = response.Result.split('\n')
     # only get the lines which has the tag <Row>
     result = [result for result in results if '<Row>' in result]
-    # Get the data between line
-    lines = [return_tag(line) for line in result]
-    return lines
+
+    try:
+        # Get the data between line
+        lines = [return_tag(line) for line in result]
+        return lines
+    except:
+        import xmltodict, json
+        collector = "<dataset>" + "".join(result) + "</dataset>"
+        o = xmltodict.parse(collector)
+        return json.dumps(o)
+
 
 
 def get_data(full_name):
@@ -43,5 +51,5 @@ def get_data(full_name):
 
 
 print "File: vivek::c_ecolids.csv : "
-print get_data("vivek::c_ecolids.csv")
+print get_data("jctest::people")
 
